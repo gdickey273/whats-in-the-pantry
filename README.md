@@ -10,3 +10,10 @@ User Story: As a home chef,
             So I can manage my time effectively
 
 User Flow and Wireframe: Excalidraw-Project1.png
+
+Edamam Data Structure:
+
+// Shows 10 hits for query
+Hits/
+[0, 1, 2, 3, 4, 5, 6, 7, 8 ,9 ,0]/recipie
+[calories, healthLabels, image, ingredientLines, ingredients, label, ]
