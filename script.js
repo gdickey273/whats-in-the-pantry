@@ -1,5 +1,5 @@
 
-var ingredients = "chicken, rice"; // When input grab is available change query to input
+var ingredients = prompt(); // When input grab is available change query to input
 var queryURL = "https://api.edamam.com/search?q="
 
 function updatePage(recipeData) {
