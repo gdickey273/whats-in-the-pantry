@@ -1,5 +1,7 @@
 var ingredients = prompt(); // When input grab is available change query to input
-var queryURL = "https://api.edamam.com/search?q="
+var edamamQueryURL = "https://api.edamam.com/search?q="
+var appId = "&app_id=5af58a3f"
+var apiKey = "&app_key=b16b5ae107b9c5c0a2d30d43d00f64b7"
 
 function updatePage(recipeData) {
   console.log("-----------------------------------")
@@ -44,7 +46,7 @@ function updatePage(recipeData) {
   }
 }
 
-queryURL = "https://api.edamam.com/search?q=" + ingredients + "&app_id=5af58a3f&app_key=b16b5ae107b9c5c0a2d30d43d00f64b7";
+queryURL = edamamQueryURL + ingredients + appId + apiKey;
 $.ajax({
   url: queryURL,
   method: "GET"
