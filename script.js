@@ -1,4 +1,3 @@
-
 var ingredients = prompt(); // When input grab is available change query to input
 var queryURL = "https://api.edamam.com/search?q="
 
@@ -20,8 +19,7 @@ function updatePage(recipeData) {
       console.log(recipeName);
       var name = $("<p>")
       name.html(recipeName);
-      name.appendTo(recipeDiv); 
-      
+      name.appendTo(recipeDiv);       
 
       // Recipe Calories
       var recipeCalories = recipeData.hits[i].recipe.calories;
@@ -29,7 +27,6 @@ function updatePage(recipeData) {
       var calories = $("<p>")
       calories.html(Math.round(recipeCalories));
       calories.appendTo(recipeDiv);
-
 
       // Recipe Health Labels i.e Alcohol Free, Gluten Free
       var recipeHealthLabels = recipeData.hits[i].recipe.healthLabels;
@@ -45,9 +42,7 @@ function updatePage(recipeData) {
       img.appendTo(recipeDiv);
   
   }
-
 }
-
 
 queryURL = "https://api.edamam.com/search?q=" + ingredients + "&app_id=5af58a3f&app_key=b16b5ae107b9c5c0a2d30d43d00f64b7";
 $.ajax({
