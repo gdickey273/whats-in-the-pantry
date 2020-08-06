@@ -17,3 +17,5 @@ Edamam Data Structure:
 Hits/
 [0, 1, 2, 3, 4, 5, 6, 7, 8 ,9 ,0]/recipie
 [calories, healthLabels, image, ingredientLines, ingredients, label, ]
+
+URL of Deployed Application: https://gdickey273.github.io/whats-in-the-pantry/
