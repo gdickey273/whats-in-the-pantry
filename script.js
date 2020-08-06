@@ -39,7 +39,6 @@ function updatePage(recipeData) {
 
       // Recipe Name
       var recipeName = recipeData.hits[i].recipe.label;
-      console.log(recipeName);
       var name = $("<h1>")
       name.html(recipeName);
       name.appendTo(recipeDiv);       
