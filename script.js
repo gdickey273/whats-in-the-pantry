@@ -110,7 +110,6 @@ function parseIngredients(ingLines){
     deferredArray.push(deferred);
 
   }
-<<<<<<< HEAD
   
   
 }
@@ -159,7 +158,3 @@ function buildIngredientsList(ingArray){
 }
 
 
-=======
-  return ingredients;
-}
->>>>>>> fd1506117d1c5a1e7b7ab430bb7f727ce73d50d0
