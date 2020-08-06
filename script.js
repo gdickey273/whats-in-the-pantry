@@ -17,19 +17,9 @@ $.ajax({
 
 edamamAjax();
 
-function edamamAjax() {
-  queryURL = edamamQueryURL + ingredients + appId + apiKey;
-$.ajax({
-  url: queryURL,
-  method: "GET"
-}).then(updatePage);  
-}
-
-edamamAjax();
-
 function updatePage(recipeData) {
   console.log("-----edamam recipe data-----", recipeData);
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 3; i++) {
       var recipe = recipeData.hits[i];
       console.log(recipe);
 
@@ -156,5 +146,3 @@ function buildIngredientsList(ingArray){
 
   ingDiv.append($("<h4>").html("Total Recipe Cost: " + subTotal));
 }
-
-
