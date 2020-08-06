@@ -4,12 +4,21 @@ var appId = "&app_id=595f4e2b";
 var apiKey = "&app_key=d8d22c089617d4cfbff9ce15762ee548";
 var spoonacularKey = "fd6475bc93094d129e4695440a886f1a";
 var ingredientArray = [];
+var deferred;
+var deferredArray = [];
+
+function edamamAjax() {
+  queryURL = edamamQueryURL + ingredients + appId + apiKey;
+$.ajax({
+  url: queryURL,
+  method: "GET"
+}).then(updatePage);  
+}
+
+edamamAjax();
 
 function updatePage(recipeData) {
-  console.log("-----------------------------------")
-  console.log(recipeData);
-  console.log("-----------------------------------")
-  
+  console.log("-----edamam recipe data-----", recipeData);
     for (var i = 0; i < 1; i++) {
       var recipe = recipeData.hits[i];
       console.log(recipe);
@@ -20,21 +29,18 @@ function updatePage(recipeData) {
 
       // Recipe Name
       var recipeName = recipeData.hits[i].recipe.label;
-      console.log(recipeName);
       var name = $("<p>")
       name.html(recipeName);
       name.appendTo(recipeDiv);       
 
       // Recipe Calories
       var recipeCalories = recipeData.hits[i].recipe.calories;
-      console.log(recipeCalories);
       var calories = $("<p>")
       calories.html(Math.round(recipeCalories));
       calories.appendTo(recipeDiv);
 
       // Recipe Health Labels i.e Alcohol Free, Gluten Free
       var recipeHealthLabels = recipeData.hits[i].recipe.healthLabels;
-      console.log(recipeHealthLabels);
       var health = $("<p>")
       health.html([recipeHealthLabels]);
       health.appendTo(recipeDiv);
@@ -48,10 +54,14 @@ function updatePage(recipeData) {
       var ingLines = recipeData.hits[i].recipe.ingredientLines;
       
       parseIngredients(ingLines);
-      
-    $.when(){
+      console.log("------deferredArray------",deferredArray);
+      console.log("------length: "+ deferredArray.length + "--------");
+  
+      console.log("------defArray[0].readyState-------", deferredArray[0].readyState);
+      $.when.apply($, deferredArray).done(function(){
       buildIngredientsList(ingredientArray);
-    }
+    });
+    
    
     
   
@@ -62,40 +72,46 @@ function updatePage(recipeData) {
 //Takes an array of Ingredient Lines (i.e. ["4 Cups of Chicken Broth", "2 Teaspoons of Salt"]) as an argument and returns an array with an Ingredient object for each Ingredient Lin.e
 function parseIngredients(ingLines){
   for(var i = 0; i < ingLines.length; i++){
-    $.ajax({
+
+    deferred = $.ajax({
       url: "https://api.spoonacular.com/recipes/parseIngredients?ingredientList="+ ingLines[i] + "&apiKey=" + spoonacularKey,
       beforeSend: function(xhr){
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       },
-      method: "POST"
-    }).then(function(response){
-      parseIngredientOBJ = response;
-      console.log("-----response-----", response);
-      var ingOBJ = {
-        line: response[0].original,
-        name: response[0].name,
-        id: response[0].id,
-        imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
-        unit: response[0].unit,
-        amount: response[0].amount,
-        amountCost: response[0].estimatedCost.value,
-        packageCost: -1
+      method: "POST",
+      success: function(response){
+        parseIngredientOBJ = response;
+        console.log("-----response-----", response);
+        var ingOBJ = {
+          line: response[0].original,
+          name: response[0].name,
+          id: response[0].id,
+          imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
+          unit: response[0].unit,
+          amount: response[0].amount,
+          amountCost: response[0].estimatedCost.value,
+          packageCost: -1
+        };
+        ingredientArray.push(ingOBJ);   
       }
-       ingredientArray.push(ingOBJ);
-       
+      
     });
-  }
-  console.log("-----ingredients------", ingredientArray.length);
   
+    deferredArray.push(deferred);
+
+  }
   
   
 }
 
+
+
 function buildIngredientsList(ingArray){
 
   console.log("Running build ing list!");
+  console.log("------ingArray length: " + ingredientArray.length + "-------");
   var subTotal = 0;
-  var ingDiv = $("<div>");
+  var ingDiv = $("<div>").addClass("ingredient-div");
   var ingTable = $("<table>").attr("id", "ingredient-table");
   ingDiv.append(ingTable);
   ingDiv.appendTo("body");
@@ -105,7 +121,7 @@ function buildIngredientsList(ingArray){
   ingTableHeadRow.append($("<th>").html("Image"));
   ingTableHeadRow.append($("<th>").html("Ingredient Line"));
   ingTableHeadRow.append($("<th>").html("Cost"));
-  ingTableHeadRow.append($("<th>").html("Link"));
+  ingTableHeadRow.append($("<th>").html("Shopping Link"));
   ingTable.append(ingTableHeadRow);
 
   console.log(Array.isArray(ingArray));
@@ -115,16 +131,20 @@ function buildIngredientsList(ingArray){
     console.log(ingredient);
     var ingImage = $("<td>").append($("<img>").attr(ingredient.imgURL));
     var ingLine = $("<td>").append($("<p>").html(ingredient.line));
-    var ingCost = $("<td>").append($("<p>").html(ingredient.amountCost));
-    var ingLink = $("<td>").append($("<a>").attr("href", "https://www.amazon.com/s?k=" + ingredient.name +"&i=grocery"));
+    var ingCost = $("<td>").append($("<p>").html("$" + ingredient.amountCost/100));
+    var ingLink = $("<td>").append($("<a>").attr("href", "https://www.amazon.com/s?k=" + ingredient.name +"&i=grocery").html(ingredient.name));
 
     var ingRow = $("<tr>").append(ingImage, ingLine, ingCost, ingLink);
     $("#ingredient-table").append(ingRow);
 
+  
     subTotal += ingredient.amountCost;
 
 
   });
+  subTotal = "$" + Math.round(subTotal)/100; 
 
-  ingDiv.append($("<h4>").html("Total Recipe Cost in Cents: " + subTotal));
+  ingDiv.append($("<h4>").html("Total Recipe Cost: " + subTotal));
 }
+
+
