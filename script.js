@@ -17,6 +17,16 @@ $.ajax({
 
 edamamAjax();
 
+function edamamAjax() {
+  queryURL = edamamQueryURL + ingredients + appId + apiKey;
+$.ajax({
+  url: queryURL,
+  method: "GET"
+}).then(updatePage);  
+}
+
+edamamAjax();
+
 function updatePage(recipeData) {
   console.log("-----edamam recipe data-----", recipeData);
     for (var i = 0; i < 1; i++) {
@@ -29,7 +39,12 @@ function updatePage(recipeData) {
 
       // Recipe Name
       var recipeName = recipeData.hits[i].recipe.label;
+<<<<<<< HEAD
       var name = $("<p>")
+=======
+      console.log(recipeName);
+      var name = $("<h1>")
+>>>>>>> fd1506117d1c5a1e7b7ab430bb7f727ce73d50d0
       name.html(recipeName);
       name.appendTo(recipeDiv);       
 
@@ -100,6 +115,7 @@ function parseIngredients(ingLines){
     deferredArray.push(deferred);
 
   }
+<<<<<<< HEAD
   
   
 }
@@ -148,3 +164,7 @@ function buildIngredientsList(ingArray){
 }
 
 
+=======
+  return ingredients;
+}
+>>>>>>> fd1506117d1c5a1e7b7ab430bb7f727ce73d50d0
