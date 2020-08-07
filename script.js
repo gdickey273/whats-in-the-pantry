@@ -1,4 +1,3 @@
-localStorage.setItem("pantryList", "duck")
 var ingredients = localStorage.getItem("pantryList"); // When input grab is available change query to input
 var edamamQueryURL = "https://api.edamam.com/search?q=";
 var appId = "&app_id=595f4e2b";
