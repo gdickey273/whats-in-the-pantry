@@ -31,7 +31,7 @@ function updatePage(recipeData) {
 
       var recipeDiv = $("<div>")
       recipeDiv.addClass("recipe-card")
-      recipeDiv.appendTo("body");
+      recipeDiv.appendTo(".recipe-section");
 
       // Recipe Name
       var recipeName = recipeData.hits[i].recipe.label;
