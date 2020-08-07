@@ -137,9 +137,11 @@ function buildIngredientsList(ingArray){
     var ingRow = $("<tr>").append(ingImage, ingLine, ingCost, ingLink);
     $("#ingredient-table").append(ingRow);
 
-  
-    subTotal += ingredient.amountCost;
 
+    //If current ingredient is not part of the list of ingredients user entered, add ingredient cost to subTotal. 
+    if(ingredients.indexOf(ingredient.name) === -1){
+    subTotal += ingredient.amountCost;
+    }
 
   });
   subTotal = "$" + Math.round(subTotal)/100; 
