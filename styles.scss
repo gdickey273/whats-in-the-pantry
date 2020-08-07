@@ -117,6 +117,9 @@ input[type=text]{
   &:active, :hover, :focus{
     outline: none;
   }
+  &:hover{
+    background-color: lightgray;
+  }
   & img{
     height: 12px;
     color: #757575;

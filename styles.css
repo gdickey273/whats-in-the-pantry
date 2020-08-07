@@ -137,6 +137,10 @@ input[type=text] {
   outline: none;
 }
 
+.landing-button:hover {
+  background-color: lightgray;
+}
+
 .landing-button img {
   height: 12px;
   color: #757575;
