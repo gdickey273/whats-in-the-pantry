@@ -6,6 +6,7 @@ var spoonacularKey = "fd6475bc93094d129e4695440a886f1a";
 var ingredientArray = [];
 var deferred;
 var deferredArray = [];
+var errorIngLines = [];
 
 function edamamAjax() {
   queryURL = edamamQueryURL + ingredients + appId + apiKey;
@@ -82,17 +83,24 @@ function parseIngredients(ingLines){
       success: function(response){
         parseIngredientOBJ = response;
         console.log("-----response-----", response);
-        var ingOBJ = {
-          line: response[0].original,
-          name: response[0].name,
-          id: response[0].id,
-          imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
-          unit: response[0].unit,
-          amount: response[0].amount,
-          amountCost: response[0].estimatedCost.value,
-          packageCost: -1
-        };
-        ingredientArray.push(ingOBJ);   
+
+        //If api cant find information on the ingredient line, the returned name will be "". If thats the case, push that ing line into an array of error ing lines.
+        if(response[0].name.length === 0){
+          errorIngLines.push(ingLines[i]);
+        } else{
+          var ingOBJ = {
+            line: response[0].original,
+            name: response[0].name,
+            id: response[0].id,
+            imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
+            unit: response[0].unit,
+            amount: response[0].amount,
+            amountCost: response[0].estimatedCost.value,
+            packageCost: -1
+          };
+          ingredientArray.push(ingOBJ);   
+        }
+        
       }
       
     });
