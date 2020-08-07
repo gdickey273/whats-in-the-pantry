@@ -1,4 +1,5 @@
-var ingredients = prompt(); // When input grab is available change query to input
+localStorage.setItem("pantryList", "duck")
+var ingredients = localStorage.getItem("pantryList"); // When input grab is available change query to input
 var edamamQueryURL = "https://api.edamam.com/search?q=";
 var appId = "&app_id=595f4e2b";
 var apiKey = "&app_key=d8d22c089617d4cfbff9ce15762ee548";
@@ -6,7 +7,11 @@ var spoonacularKey = "fd6475bc93094d129e4695440a886f1a";
 var ingredientArray = [];
 var deferred;
 var deferredArray = [];
+var recipeAmountCount = 3;
+var errorIngLines = [];
 
+
+// Edamam Ajax
 function edamamAjax() {
   queryURL = edamamQueryURL + ingredients + appId + apiKey;
 $.ajax({
@@ -17,19 +22,10 @@ $.ajax({
 
 edamamAjax();
 
-function edamamAjax() {
-  queryURL = edamamQueryURL + ingredients + appId + apiKey;
-$.ajax({
-  url: queryURL,
-  method: "GET"
-}).then(updatePage);  
-}
-
-edamamAjax();
-
+// Display returned recipe data from Edamam
 function updatePage(recipeData) {
   console.log("-----edamam recipe data-----", recipeData);
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < recipeAmountCount; i++) {
       var recipe = recipeData.hits[i];
       console.log(recipe);
 
@@ -40,19 +36,19 @@ function updatePage(recipeData) {
       // Recipe Name
       var recipeName = recipeData.hits[i].recipe.label;
       var name = $("<h1>")
-      name.html(recipeName);
+      name.html("Recipe Name: " + recipeName);
       name.appendTo(recipeDiv);       
 
       // Recipe Calories
       var recipeCalories = recipeData.hits[i].recipe.calories;
       var calories = $("<p>")
-      calories.html(Math.round(recipeCalories));
+      calories.html("Recipe Calories: " + Math.round(recipeCalories));
       calories.appendTo(recipeDiv);
 
       // Recipe Health Labels i.e Alcohol Free, Gluten Free
       var recipeHealthLabels = recipeData.hits[i].recipe.healthLabels;
       var health = $("<p>")
-      health.html([recipeHealthLabels]);
+      health.html("Health Labels: " + [recipeHealthLabels]);
       health.appendTo(recipeDiv);
       
       // Recipe Image
@@ -79,7 +75,7 @@ function updatePage(recipeData) {
   }
 }
 
-//Takes an array of Ingredient Lines (i.e. ["4 Cups of Chicken Broth", "2 Teaspoons of Salt"]) as an argument and returns an array with an Ingredient object for each Ingredient Lin.e
+// Takes an array of Ingredient Lines (i.e. ["4 Cups of Chicken Broth", "2 Teaspoons of Salt"]) as an argument and returns an array with an Ingredient object for each Ingredient Lin.e
 function parseIngredients(ingLines){
   for(var i = 0; i < ingLines.length; i++){
 
@@ -92,17 +88,24 @@ function parseIngredients(ingLines){
       success: function(response){
         parseIngredientOBJ = response;
         console.log("-----response-----", response);
-        var ingOBJ = {
-          line: response[0].original,
-          name: response[0].name,
-          id: response[0].id,
-          imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
-          unit: response[0].unit,
-          amount: response[0].amount,
-          amountCost: response[0].estimatedCost.value,
-          packageCost: -1
-        };
-        ingredientArray.push(ingOBJ);   
+
+        //If api cant find information on the ingredient line, the returned name will be "". If thats the case, push that ing line into an array of error ing lines.
+        if(response[0].name.length === 0){
+          errorIngLines.push(ingLines[i]);
+        } else{
+          var ingOBJ = {
+            line: response[0].original,
+            name: response[0].name,
+            id: response[0].id,
+            imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
+            unit: response[0].unit,
+            amount: response[0].amount,
+            amountCost: response[0].estimatedCost.value,
+            packageCost: -1
+          };
+          ingredientArray.push(ingOBJ);   
+        }
+        
       }
       
     });
@@ -114,8 +117,7 @@ function parseIngredients(ingLines){
   
 }
 
-
-
+// Build ingredient list from spoonacular
 function buildIngredientsList(ingArray){
 
   console.log("Running build ing list!");
@@ -141,20 +143,20 @@ function buildIngredientsList(ingArray){
     console.log(ingredient);
     var ingImage = $("<td>").append($("<img>").attr(ingredient.imgURL));
     var ingLine = $("<td>").append($("<p>").html(ingredient.line));
-    var ingCost = $("<td>").append($("<p>").html("$" + ingredient.amountCost/100));
+    var ingCost = $("<td>").append($("<p>").html("$" + (ingredient.amountCost/100).toFixed(2)));
     var ingLink = $("<td>").append($("<a>").attr("href", "https://www.amazon.com/s?k=" + ingredient.name +"&i=grocery").html(ingredient.name));
 
     var ingRow = $("<tr>").append(ingImage, ingLine, ingCost, ingLink);
     $("#ingredient-table").append(ingRow);
 
-  
-    subTotal += ingredient.amountCost;
 
+    //If current ingredient is not part of the list of ingredients user entered, add ingredient cost to subTotal. 
+    if(ingredients.indexOf(ingredient.name) === -1){
+    subTotal += ingredient.amountCost;
+    }
 
   });
   subTotal = "$" + Math.round(subTotal)/100; 
 
   ingDiv.append($("<h4>").html("Total Recipe Cost: " + subTotal));
 }
-
-
