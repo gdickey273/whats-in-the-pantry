@@ -18,4 +18,5 @@ $(".landing-button").on("click", function(){
   }
 
   localStorage.setItem("pantryList", pantryItems);
+  window.location.replace("https://gdickey273.github.io/whats-in-the-pantry/page01.html")
 });
