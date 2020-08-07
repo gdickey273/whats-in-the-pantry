@@ -8,6 +8,8 @@ var ingredientArray = [];
 var deferred;
 var deferredArray = [];
 var recipeAmountCount = 3;
+var errorIngLines = [];
+
 
 // Edamam Ajax
 function edamamAjax() {
@@ -86,17 +88,24 @@ function parseIngredients(ingLines){
       success: function(response){
         parseIngredientOBJ = response;
         console.log("-----response-----", response);
-        var ingOBJ = {
-          line: response[0].original,
-          name: response[0].name,
-          id: response[0].id,
-          imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
-          unit: response[0].unit,
-          amount: response[0].amount,
-          amountCost: response[0].estimatedCost.value,
-          packageCost: -1
-        };
-        ingredientArray.push(ingOBJ);   
+
+        //If api cant find information on the ingredient line, the returned name will be "". If thats the case, push that ing line into an array of error ing lines.
+        if(response[0].name.length === 0){
+          errorIngLines.push(ingLines[i]);
+        } else{
+          var ingOBJ = {
+            line: response[0].original,
+            name: response[0].name,
+            id: response[0].id,
+            imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
+            unit: response[0].unit,
+            amount: response[0].amount,
+            amountCost: response[0].estimatedCost.value,
+            packageCost: -1
+          };
+          ingredientArray.push(ingOBJ);   
+        }
+        
       }
       
     });
@@ -140,9 +149,11 @@ function buildIngredientsList(ingArray){
     var ingRow = $("<tr>").append(ingImage, ingLine, ingCost, ingLink);
     $("#ingredient-table").append(ingRow);
 
-  
-    subTotal += ingredient.amountCost;
 
+    //If current ingredient is not part of the list of ingredients user entered, add ingredient cost to subTotal. 
+    if(ingredients.indexOf(ingredient.name) === -1){
+    subTotal += ingredient.amountCost;
+    }
 
   });
   subTotal = "$" + Math.round(subTotal)/100; 
