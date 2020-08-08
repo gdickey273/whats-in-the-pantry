@@ -254,5 +254,40 @@ function buildIngredientsList(ingArray){
     ingDiv.append(errorIngLinesHeader, errorLineList);
   }
 
+  var applied = false;
+  var displayFinal = $(".ingredient-div");
+
+  $(".confirm-icon").on("click", function(){ 
+    if(!applied){
+      displayFinal.css("display", "contents");
+      displayFinal.css("z-index", "99");
+      displayFinal.css("position", "absolute");
+      displayFinal.css("top", "50%");
+      displayFinal.css("left", "50%");
+      applied = true;
+    } else {
+      displayFinal.css("display", "none");
+      applied = false;
+    }
+  });
+
+  var applied2 = false;
+  var displayExpand = $(".recipe-card");
+
+  $(".expand-card p").on("click", function(){ 
+    if(!applied2){
+      displayExpand.css("-ms-transform", "scale(1.5)");
+      displayExpand.css("-webkit-transform:", "scale(1.5)");
+      displayExpand.css("transform", "scale(1.5)");
+      displayExpand.css("transition", "transform .2s");
+      applied = true;
+    } else {
+      displayExpand.css("-ms-transform", "");
+      displayExpand.css("-webkit-transform:", "");
+      displayExpand.css("transform", "");
+      displayExpand.css("transition", "");
+      applied2 = false;
+    }
+  });
   
 }

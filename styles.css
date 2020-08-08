@@ -24,6 +24,7 @@
 }
 
 body {
+  position: relative;
   background-color: #F7FFEE;
   font-family: "Crimson Text", serif;
   margin: 0;
@@ -111,15 +112,6 @@ main {
   font-weight: bold;
 }
 
-.recipe-card:hover {
-  -webkit-transform: scale(1.5);
-  transform: scale(1.5);
-  -webkit-transition: -webkit-transform .2s;
-  transition: -webkit-transform .2s;
-  transition: transform .2s;
-  transition: transform .2s, -webkit-transform .2s;
-}
-
 .input-group__textbox {
   width: 70%;
   padding: .5em;
@@ -177,6 +169,10 @@ input[type=text] {
   -khtml-user-select: none;
 }
 
+.ingredient-div {
+  display: none;
+}
+
 table {
   background-color: white;
   margin: auto;
@@ -188,6 +184,15 @@ table {
 
 table th, table td {
   padding: 1em;
+}
+
+table td {
+  position: relative;
+}
+
+table td p, table td a {
+  position: absolute;
+  top: 50%;
 }
 
 .card-list {
