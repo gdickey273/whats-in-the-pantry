@@ -1,15 +1,14 @@
-localStorage.setItem("pantryList", "duck")
 var ingredients = localStorage.getItem("pantryList"); // When input grab is available change query to input
 var edamamQueryURL = "https://api.edamam.com/search?q=";
 var appId = "&app_id=595f4e2b";
 var apiKey = "&app_key=d8d22c089617d4cfbff9ce15762ee548";
 var spoonacularKey = "fd6475bc93094d129e4695440a886f1a";
+var recipeArray = [];
 var ingredientArray = [];
 var deferred;
 var deferredArray = [];
-var recipeAmountCount = 3;
+var recipeAmountCount = 1;
 var errorIngLines = [];
-
 
 // Edamam Ajax
 function edamamAjax() {
@@ -24,12 +23,13 @@ edamamAjax();
 
 // Display returned recipe data from Edamam
 function updatePage(recipeData) {
+  recipeArray = recipeData.hits; 
   console.log("-----edamam recipe data-----", recipeData);
     for (var i = 0; i < recipeAmountCount; i++) {
       var recipe = recipeData.hits[i];
       console.log(recipe);
 
-      var recipeDiv = $("<div>")
+      var recipeDiv = $("<div>");
       recipeDiv.addClass("recipe-card")
       recipeDiv.appendTo(".recipe-section");
 
@@ -56,6 +56,26 @@ function updatePage(recipeData) {
       var img = $("<img>")
       img.attr("src", recipeImage);
       img.appendTo(recipeDiv);
+
+      // Recipe Serving Amount
+      var recipeServings = recipeData.hits[i].recipe.yield;
+      var servings = $("<p>")
+      servings.html("Servings : " + recipeServings);
+      servings.appendTo(recipeDiv);
+
+      // Recipe Source
+      var recipeSource = recipeData.hits[i].recipe.source;
+      var source = $("<p>")
+      source.html("Source : " + recipeSource);
+      source.appendTo(recipeDiv);
+
+      // Recipe URL
+      var recipeURL = recipeData.hits[i].recipe.url;
+      var cardURL = $("<a>")
+      cardURL.html("Recipe Summary");
+      cardURL.attr("href", recipeURL);
+      cardURL.attr("target", "_blank")
+      cardURL.appendTo(recipeDiv);
   
       var ingLines = recipeData.hits[i].recipe.ingredientLines;
       
