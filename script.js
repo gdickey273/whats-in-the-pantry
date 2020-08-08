@@ -10,7 +10,6 @@ var deferredArray = [];
 var recipeAmountCount = 1;
 var errorIngLines = [];
 
-
 // Edamam Ajax
 function edamamAjax() {
   queryURL = edamamQueryURL + ingredients + appId + apiKey;
@@ -57,6 +56,26 @@ function updatePage(recipeData) {
       var img = $("<img>")
       img.attr("src", recipeImage);
       img.appendTo(recipeDiv);
+
+      // Recipe Serving Amount
+      var recipeServings = recipeData.hits[i].recipe.yield;
+      var servings = $("<p>")
+      servings.html("Servings : " + recipeServings);
+      servings.appendTo(recipeDiv);
+
+      // Recipe Source
+      var recipeSource = recipeData.hits[i].recipe.source;
+      var source = $("<p>")
+      source.html("Source : " + recipeSource);
+      source.appendTo(recipeDiv);
+
+      // Recipe URL
+      var recipeURL = recipeData.hits[i].recipe.url;
+      var cardURL = $("<a>")
+      cardURL.html("Recipe Summary");
+      cardURL.attr("href", recipeURL);
+      cardURL.attr("target", "_blank")
+      cardURL.appendTo(recipeDiv);
   
       var ingLines = recipeData.hits[i].recipe.ingredientLines;
       
