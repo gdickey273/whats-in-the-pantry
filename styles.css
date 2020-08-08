@@ -108,6 +108,15 @@ main {
   font-weight: bold;
 }
 
+.recipe-card:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  -webkit-transition: -webkit-transform .2s;
+  transition: -webkit-transform .2s;
+  transition: transform .2s;
+  transition: transform .2s, -webkit-transform .2s;
+}
+
 .input-group__textbox {
   width: 70%;
   padding: .5em;
@@ -178,7 +187,13 @@ table th, table td {
   padding: 1em;
 }
 
-.card-list-items li {
+.card-list {
   float: right;
+  width: 50%;
+}
+
+.card-list li {
+  text-align: right;
+  list-style-type: none;
 }
 /*# sourceMappingURL=styles.css.map */

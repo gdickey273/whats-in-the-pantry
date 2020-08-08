@@ -75,13 +75,17 @@ function updatePage(recipeData) {
       source.html("Source : " + recipeSource);
       source.appendTo(cardList);
 
+      var cardBottom = $("<div>");
+      recipeCard.addClass("card-bottom");
+      cardBottom.appendTo(recipeCard);
+
       // Recipe URL
       var recipeURL = recipeData.hits[i].recipe.url;
       var cardURL = $("<a>")
       cardURL.html("Recipe Summary");
       cardURL.attr("href", recipeURL);
       cardURL.attr("target", "_blank")
-      cardURL.appendTo(recipeDiv);
+      cardURL.appendTo(cardBottom);
   
       var ingLines = recipeData.hits[i].recipe.ingredientLines;
       
