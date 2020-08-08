@@ -72,7 +72,7 @@ main{
   background-color: #FFFFFF;
   box-shadow: 2px 2px 4px darkgray;
   box-sizing: border-box;
-  width: 100%;
+  width: 60%;
   padding: 1em;
   margin: 2em auto;
 
@@ -82,6 +82,11 @@ main{
 
     & p{
       float: right;
+    }
+
+    & h1{
+      font-size: 2em;
+      font-weight: bold;
     }
       
 }
@@ -137,6 +142,13 @@ input[type=text]{
   -khtml-user-select: none;
 }
 
-.recipe-card{
-  width: 60%;
+table{
+  background-color: white;
+  margin: auto;
+  box-shadow: 2px 2px 4px darkgray;
+  box-sizing: border-box;
+  & th, td{
+    padding: 1em;
+  }
+    
 }
