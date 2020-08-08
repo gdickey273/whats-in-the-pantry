@@ -30,26 +30,35 @@ function updatePage(recipeData) {
       console.log(recipe);
 
       var recipeDiv = $("<div>");
-      recipeDiv.addClass("recipe-card")
       recipeDiv.appendTo(".recipe-section");
+      recipeDiv.addClass("recipe-card");
 
       // Recipe Name
       var recipeName = recipeData.hits[i].recipe.label;
-      var name = $("<h1>")
-      name.html("Recipe Name: " + recipeName);
+      var name = $("<h1>");
+      name.html(recipeName);
       name.appendTo(recipeDiv);       
+
+      var recipeCard = $(".recipe-card");
+      var cardList = $("<div>");
+      cardList.addClass("card-list");
+      cardList.appendTo(recipeCard);
+      var cardListItems = $("<ol>");
+      cardListItems.addClass("card-list-items");
+      cardListItems.appendTo(cardList);
 
       // Recipe Calories
       var recipeCalories = recipeData.hits[i].recipe.calories;
-      var calories = $("<p>")
+      var calories = $("<li>");
       calories.html("Recipe Calories: " + Math.round(recipeCalories));
-      calories.appendTo(recipeDiv);
+      calories.appendTo(cardListItems);
 
       // Recipe Health Labels i.e Alcohol Free, Gluten Free
       var recipeHealthLabels = recipeData.hits[i].recipe.healthLabels;
-      var health = $("<p>")
+      console.log(recipeHealthLabels);
+      var health = $("<li>");
       health.html("Health Labels: " + [recipeHealthLabels]);
-      health.appendTo(recipeDiv);
+      health.appendTo(cardListItems);
       
       // Recipe Image
       var recipeImage = recipeData.hits[i].recipe.image;
