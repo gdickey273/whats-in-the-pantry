@@ -11,6 +11,7 @@
  @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
 
 body{
+  position: relative;
   background-color:  #F7FFEE;
   font-family: "Crimson Text", serif;
   margin: 0;
@@ -94,14 +95,6 @@ main{
       
 }
 
-.recipe-card:hover {
-  -ms-transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  transform: scale(1.5);
-  transition: transform .2s;
-}
-
-
 .input-group{
 
   &__textbox{
@@ -153,15 +146,29 @@ input[type=text]{
   -khtml-user-select: none;
 }
 
+.ingredient-div{
+  display: none;
+}
+
 table{
   background-color: white;
   margin: auto;
   box-shadow: 2px 2px 4px darkgray;
   box-sizing: border-box;
+
   & th, td{
     padding: 1em;
+
   }
-    
+
+  & td{
+  position: relative;
+
+    & p, a{
+      position: absolute;
+      top: 50%;
+    }
+  }
 }
 
 .card-list{
