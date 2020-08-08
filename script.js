@@ -1,4 +1,4 @@
-var ingredients = localStorage.getItem("pantryList"); // When input grab is available change query to input
+var ingredients = "butter, sugar, flour"; //localStorage.getItem("pantryList"); // When input grab is available change query to input
 var edamamQueryURL = "https://api.edamam.com/search?q=";
 var appId = "&app_id=595f4e2b";
 var apiKey = "&app_key=d8d22c089617d4cfbff9ce15762ee548";
@@ -92,7 +92,7 @@ function parseIngredients(ingLines){
 
         //If api cant find information on the ingredient line, the returned name will be "". If thats the case, push that ing line into an array of error ing lines.
         if(response[0].name.length === 0){
-          errorIngLines.push(ingLines[i]);
+          errorIngLines.push(response[0].original);
         } else{
           var ingOBJ = {
             line: response[0].original,
@@ -149,15 +149,27 @@ function buildIngredientsList(ingArray){
 
     var ingRow = $("<tr>").append(ingImage, ingLine, ingCost, ingLink);
     $("#ingredient-table").append(ingRow);
-
-
+    
     //If current ingredient is not part of the list of ingredients user entered, add ingredient cost to subTotal. 
     if(ingredients.indexOf(ingredient.name) === -1){
     subTotal += ingredient.amountCost;
     }
 
   });
+
   subTotal = "$" + Math.round(subTotal)/100; 
 
   ingDiv.append($("<h4>").html("Total Recipe Cost: " + subTotal));
+
+  if(errorIngLines.length > 0){
+    var errorIngLinesHeader = $("<p>").html("We're sorry to say we couldn't find any information for the following ingredient lines:");
+    var errorLineList = $("<ul>")
+    errorIngLines.forEach(function(line){
+      var listEl = $("<li>").html(line);
+      errorLineList.append(listEl);
+    });
+    ingDiv.append(errorIngLinesHeader, errorLineList);
+  }
+
+  
 }
