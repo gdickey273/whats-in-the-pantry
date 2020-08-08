@@ -27,7 +27,6 @@ $(".landing-button").on("click", function(){
   }
   
   localStorage.setItem("pantryList", pantryItems);
-  // window.location.replace("https://gdickey273.github.io/whats-in-the-pantry/page01.html");
-  var url = "C:\\Users\\Daniel\\dev\\unc\\class-work\\project-1\\whats-in-the-pantry\\page01.html";
+  var url = "C:\\Users\\mthem\\Documents\\Coding Bootcamp\\Project1\\whats-in-the-pantry\\page01.html";
   $(location).attr('href',url);
 });
