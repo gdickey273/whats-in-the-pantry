@@ -3,10 +3,11 @@ var edamamQueryURL = "https://api.edamam.com/search?q=";
 var appId = "&app_id=595f4e2b";
 var apiKey = "&app_key=d8d22c089617d4cfbff9ce15762ee548";
 var spoonacularKey = "fd6475bc93094d129e4695440a886f1a";
+var recipeArray = [];
 var ingredientArray = [];
 var deferred;
 var deferredArray = [];
-var recipeAmountCount = 3;
+var recipeAmountCount = 1;
 var errorIngLines = [];
 
 
@@ -23,12 +24,13 @@ edamamAjax();
 
 // Display returned recipe data from Edamam
 function updatePage(recipeData) {
+  recipeArray = recipeData.hits; 
   console.log("-----edamam recipe data-----", recipeData);
     for (var i = 0; i < recipeAmountCount; i++) {
       var recipe = recipeData.hits[i];
       console.log(recipe);
 
-      var recipeDiv = $("<div>")
+      var recipeDiv = $("<div>");
       recipeDiv.addClass("recipe-card")
       recipeDiv.appendTo(".recipe-section");
 
