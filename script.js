@@ -43,22 +43,19 @@ function updatePage(recipeData) {
       var cardList = $("<div>");
       cardList.addClass("card-list");
       cardList.appendTo(recipeCard);
-      var cardListItems = $("<ol>");
-      cardListItems.addClass("card-list-items");
-      cardListItems.appendTo(cardList);
 
       // Recipe Calories
       var recipeCalories = recipeData.hits[i].recipe.calories;
       var calories = $("<li>");
       calories.html("Recipe Calories: " + Math.round(recipeCalories));
-      calories.appendTo(cardListItems);
+      calories.appendTo(cardList);
 
       // Recipe Health Labels i.e Alcohol Free, Gluten Free
       var recipeHealthLabels = recipeData.hits[i].recipe.healthLabels;
       console.log(recipeHealthLabels);
       var health = $("<li>");
       health.html("Health Labels: " + [recipeHealthLabels]);
-      health.appendTo(cardListItems);
+      health.appendTo(cardList);
       
       // Recipe Image
       var recipeImage = recipeData.hits[i].recipe.image;
@@ -68,15 +65,15 @@ function updatePage(recipeData) {
 
       // Recipe Serving Amount
       var recipeServings = recipeData.hits[i].recipe.yield;
-      var servings = $("<p>")
+      var servings = $("<li>")
       servings.html("Servings : " + recipeServings);
-      servings.appendTo(recipeDiv);
+      servings.appendTo(cardList);
 
       // Recipe Source
       var recipeSource = recipeData.hits[i].recipe.source;
-      var source = $("<p>")
+      var source = $("<li>")
       source.html("Source : " + recipeSource);
-      source.appendTo(recipeDiv);
+      source.appendTo(cardList);
 
       // Recipe URL
       var recipeURL = recipeData.hits[i].recipe.url;
