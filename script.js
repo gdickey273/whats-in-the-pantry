@@ -10,7 +10,6 @@ var deferredArray = [];
 var recipeAmountCount = 1;
 var errorIngLines = [];
 
-
 // Edamam Ajax
 function edamamAjax() {
   queryURL = edamamQueryURL + ingredients + appId + apiKey;
