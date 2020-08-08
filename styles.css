@@ -85,14 +85,16 @@ main {
 }
 
 .recipe-card {
+  display: relative;
   background-color: #FFFFFF;
   -webkit-box-shadow: 2px 2px 4px darkgray;
           box-shadow: 2px 2px 4px darkgray;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  width: 60%;
+  width: 35%;
   padding: 1em;
   margin: 2em auto;
+  font-size: 1em;
 }
 
 .recipe-card img {
@@ -105,7 +107,17 @@ main {
 
 .recipe-card h1 {
   font-size: 1.5em;
+  padding-bottom: 1em;
   font-weight: bold;
+}
+
+.recipe-card:hover {
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  -webkit-transition: -webkit-transform .2s;
+  transition: -webkit-transform .2s;
+  transition: transform .2s;
+  transition: transform .2s, -webkit-transform .2s;
 }
 
 .input-group__textbox {
@@ -178,7 +190,33 @@ table th, table td {
   padding: 1em;
 }
 
-.card-list-items li {
+.card-list {
   float: right;
+  width: 50%;
+}
+
+.card-list li {
+  text-align: left;
+  list-style-type: none;
+  padding-left: 2em;
+}
+
+.confirm-icon {
+  width: 20px !important;
+  padding: .2em;
+  float: right;
+}
+
+.card-bottom {
+  padding: .5em;
+  clear: both;
+}
+
+.card-bottom a {
+  float: right;
+}
+
+.expand-card {
+  float: left;
 }
 /*# sourceMappingURL=styles.css.map */

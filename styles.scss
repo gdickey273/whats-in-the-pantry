@@ -69,12 +69,14 @@ main{
 }
 
 .recipe-card{
+  display: relative;
   background-color: #FFFFFF;
   box-shadow: 2px 2px 4px darkgray;
   box-sizing: border-box;
-  width: 60%;
+  width: 35%;
   padding: 1em;
   margin: 2em auto;
+  font-size: 1em;
 
     & img{
       width: 100px;
@@ -86,10 +88,19 @@ main{
 
     & h1{
       font-size: 1.5em;
+      padding-bottom: 1em;
       font-weight: bold;
     }
       
 }
+
+.recipe-card:hover {
+  -ms-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
+  transition: transform .2s;
+}
+
 
 .input-group{
 
@@ -153,9 +164,33 @@ table{
     
 }
 
-.card-list-items{
-
+.card-list{
+  float: right;
+  width: 50%;
   & li{
-    float:right;
+    text-align: left;
+    list-style-type: none;
+    padding-left: 2em;
+    
   }
+}
+
+.confirm-icon{
+  width: 20px !important;
+  padding: .2em;
+  float: right;
+}
+
+.card-bottom {
+  padding: .5em;
+  clear: both;
+
+  & a{
+    float: right;
+  }
+
+}
+
+.expand-card{
+  float: left;
 }

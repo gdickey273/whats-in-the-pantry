@@ -77,6 +77,11 @@ function updatePage(recipeData) {
       recipeDiv.appendTo(".recipe-section");
       recipeDiv.addClass("recipe-card");
 
+      var confirmIcon = $("<img>");
+      confirmIcon.appendTo(".recipe-card");
+      confirmIcon.attr("src", "img/icons/check-circle.svg");
+      confirmIcon.addClass("confirm-icon");
+
       // Recipe Name
       var recipeName = recipeData.hits[i].recipe.label;
       var name = $("<h1>");
@@ -119,13 +124,22 @@ function updatePage(recipeData) {
       source.html("Source : " + recipeSource);
       source.appendTo(cardList);
 
+      var cardBottom = $("<div>");
+      cardBottom.addClass("card-bottom");
+      cardBottom.appendTo(recipeCard);
+
+      var expandCard = $("<div>");
+      expandCard.addClass("expand-card");
+      expandCard.html("<p>Expand Card</p>");
+      expandCard.appendTo(cardBottom);
+
       // Recipe URL
       var recipeURL = recipeData.hits[i].recipe.url;
       var cardURL = $("<a>")
       cardURL.html("Recipe Summary");
       cardURL.attr("href", recipeURL);
       cardURL.attr("target", "_blank")
-      cardURL.appendTo(recipeDiv);
+      cardURL.appendTo(cardBottom);
   
       var ingLines = recipeData.hits[i].recipe.ingredientLines;
       
