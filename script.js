@@ -4,11 +4,55 @@ var appId = "&app_id=595f4e2b";
 var apiKey = "&app_key=d8d22c089617d4cfbff9ce15762ee548";
 var spoonacularKey = "fd6475bc93094d129e4695440a886f1a";
 var recipeArray = [];
-var ingredientArray = [];
+var ingredientArray = [{
+  amount: 1.5,
+  amountCost: 145.29,
+  id: 1145,
+  imgURL: "https://spoonacular.com/cdn/ingredients_100x100/butter",
+  line: "1 1/2 sticks unsalted butter",
+  name: "butter",
+  packageCost: -1,
+  unit: "sticks"},
+{amount: 1.3333333333333333,
+  amountCost: 22.22,
+  id: 20081,
+  imgURL: "https://spoonacular.com/cdn/ingredients_100x100/flour",
+  line: "1 1/3 cups all-purpose flour",
+  name: "flour",
+  packageCost: -1,
+  unit: "cups"},
+  {
+    amount: 0.5,
+amountCost: 35.36,
+id: 10019334,
+imgURL: "https://spoonacular.com/cdn/ingredients_100x100/brown sugar",
+line: "1/2 cup packed brown sugar (preferably dark)",
+name: "brown sugar",
+packageCost: -1,
+unit: "cup"
+  },
+  {amount: 1,
+    amountCost: 29.83,
+    id: 2050,
+    imgURL: "https://spoonacular.com/cdn/ingredients_100x100/vanilla extract",
+    line: "1 teaspoon pure vanilla extract",
+    name: "vanilla extract",
+    packageCost: -1,
+    unit: "teaspoon"},
+    {
+      amount: 0.25,
+      amountCost: 0.16,
+      id: 2047,
+      imgURL: "https://spoonacular.com/cdn/ingredients_100x100/salt",
+      line: "1/4 teaspoon salt (flaky salt would be great in these)",
+      name: "salt",
+      packageCost: -1,
+      unit: "teaspoon"}
+];
 var deferred;
 var deferredArray = [];
 var recipeAmountCount = 1;
-var errorIngLines = [];
+var errorIngLines = ["Demerara sugar (Sugar in the Raw) or sanding sugar for rolling (optional)"];
 
 
 // Edamam Ajax
@@ -60,16 +104,16 @@ function updatePage(recipeData) {
   
       var ingLines = recipeData.hits[i].recipe.ingredientLines;
       
-      parseIngredients(ingLines);
-      console.log("------deferredArray------",deferredArray);
-      console.log("------length: "+ deferredArray.length + "--------");
+    //   parseIngredients(ingLines);
+    //   console.log("------deferredArray------",deferredArray);
+    //   console.log("------length: "+ deferredArray.length + "--------");
   
-      console.log("------defArray[0].readyState-------", deferredArray[0].readyState);
-      $.when.apply($, deferredArray).done(function(){
-      buildIngredientsList(ingredientArray);
-    });
+    //   console.log("------defArray[0].readyState-------", deferredArray[0].readyState);
+    //   $.when.apply($, deferredArray).done(function(){
+    //   buildIngredientsList(ingredientArray);
+    // });
     
-   
+   buildIngredientsList(ingredientArray);
     
   
       
