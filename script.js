@@ -285,7 +285,11 @@ function buildIngredientsList(ingArray){
       displayExpand.css("-ms-transform", "");
       displayExpand.css("-webkit-transform:", "");
       displayExpand.css("transform", "");
+<<<<<<< HEAD
       displayExpand.css("transition", "");
+=======
+      displayExpand.css("transition", "none");
+>>>>>>> dansargent-whats-in-the-pantry
       applied2 = false;
     }
   });
