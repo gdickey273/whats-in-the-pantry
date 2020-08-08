@@ -1,14 +1,58 @@
-var ingredients = localStorage.getItem("pantryList"); // When input grab is available change query to input
+var ingredients = "butter, sugar, flour"; //localStorage.getItem("pantryList"); // When input grab is available change query to input
 var edamamQueryURL = "https://api.edamam.com/search?q=";
 var appId = "&app_id=595f4e2b";
 var apiKey = "&app_key=d8d22c089617d4cfbff9ce15762ee548";
 var spoonacularKey = "fd6475bc93094d129e4695440a886f1a";
 var recipeArray = [];
-var ingredientArray = [];
+var ingredientArray = [{
+  amount: 1.5,
+  amountCost: 145.29,
+  id: 1145,
+  imgURL: "https://spoonacular.com/cdn/ingredients_100x100/butter-sliced.jpg",
+  line: "1 1/2 sticks unsalted butter",
+  name: "butter",
+  packageCost: -1,
+  unit: "sticks"},
+{amount: 1.3333333333333333,
+  amountCost: 22.22,
+  id: 20081,
+  imgURL: "https://spoonacular.com/cdn/ingredients_100x100/flour.png",
+  line: "1 1/3 cups all-purpose flour",
+  name: "flour",
+  packageCost: -1,
+  unit: "cups"},
+  {
+    amount: 0.5,
+amountCost: 35.36,
+id: 10019334,
+imgURL: "https://spoonacular.com/cdn/ingredients_100x100/dark-brown-sugar.png",
+line: "1/2 cup packed brown sugar (preferably dark)",
+name: "brown sugar",
+packageCost: -1,
+unit: "cup"
+  },
+  {amount: 1,
+    amountCost: 29.83,
+    id: 2050,
+    imgURL: "https://spoonacular.com/cdn/ingredients_100x100/vanilla-extract.jpg",
+    line: "1 teaspoon pure vanilla extract",
+    name: "vanilla extract",
+    packageCost: -1,
+    unit: "teaspoon"},
+    {
+      amount: 0.25,
+      amountCost: 0.16,
+      id: 2047,
+      imgURL: "https://spoonacular.com/cdn/ingredients_100x100/salt.jpg",
+      line: "1/4 teaspoon salt (flaky salt would be great in these)",
+      name: "salt",
+      packageCost: -1,
+      unit: "teaspoon"}
+];
 var deferred;
 var deferredArray = [];
 var recipeAmountCount = 1;
-var errorIngLines = [];
+var errorIngLines = ["Demerara sugar (Sugar in the Raw) or sanding sugar for rolling (optional)"];
 
 // Edamam Ajax
 function edamamAjax() {
@@ -43,22 +87,19 @@ function updatePage(recipeData) {
       var cardList = $("<div>");
       cardList.addClass("card-list");
       cardList.appendTo(recipeCard);
-      var cardListItems = $("<ol>");
-      cardListItems.addClass("card-list-items");
-      cardListItems.appendTo(cardList);
 
       // Recipe Calories
       var recipeCalories = recipeData.hits[i].recipe.calories;
       var calories = $("<li>");
       calories.html("Recipe Calories: " + Math.round(recipeCalories));
-      calories.appendTo(cardListItems);
+      calories.appendTo(cardList);
 
       // Recipe Health Labels i.e Alcohol Free, Gluten Free
       var recipeHealthLabels = recipeData.hits[i].recipe.healthLabels;
       console.log(recipeHealthLabels);
       var health = $("<li>");
       health.html("Health Labels: " + [recipeHealthLabels]);
-      health.appendTo(cardListItems);
+      health.appendTo(cardList);
       
       // Recipe Image
       var recipeImage = recipeData.hits[i].recipe.image;
@@ -68,15 +109,15 @@ function updatePage(recipeData) {
 
       // Recipe Serving Amount
       var recipeServings = recipeData.hits[i].recipe.yield;
-      var servings = $("<p>")
+      var servings = $("<li>")
       servings.html("Servings : " + recipeServings);
-      servings.appendTo(recipeDiv);
+      servings.appendTo(cardList);
 
       // Recipe Source
       var recipeSource = recipeData.hits[i].recipe.source;
-      var source = $("<p>")
+      var source = $("<li>")
       source.html("Source : " + recipeSource);
-      source.appendTo(recipeDiv);
+      source.appendTo(cardList);
 
       // Recipe URL
       var recipeURL = recipeData.hits[i].recipe.url;
@@ -88,16 +129,16 @@ function updatePage(recipeData) {
   
       var ingLines = recipeData.hits[i].recipe.ingredientLines;
       
-      parseIngredients(ingLines);
-      console.log("------deferredArray------",deferredArray);
-      console.log("------length: "+ deferredArray.length + "--------");
+    //   parseIngredients(ingLines);
+    //   console.log("------deferredArray------",deferredArray);
+    //   console.log("------length: "+ deferredArray.length + "--------");
   
-      console.log("------defArray[0].readyState-------", deferredArray[0].readyState);
-      $.when.apply($, deferredArray).done(function(){
-      buildIngredientsList(ingredientArray);
-    });
+    //   console.log("------defArray[0].readyState-------", deferredArray[0].readyState);
+    //   $.when.apply($, deferredArray).done(function(){
+    //   buildIngredientsList(ingredientArray);
+    // });
     
-   
+   buildIngredientsList(ingredientArray);
     
   
       
@@ -120,13 +161,13 @@ function parseIngredients(ingLines){
 
         //If api cant find information on the ingredient line, the returned name will be "". If thats the case, push that ing line into an array of error ing lines.
         if(response[0].name.length === 0){
-          errorIngLines.push(ingLines[i]);
+          errorIngLines.push(response[0].original);
         } else{
           var ingOBJ = {
             line: response[0].original,
             name: response[0].name,
             id: response[0].id,
-            imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].name,
+            imgURL: "https://spoonacular.com/cdn/ingredients_100x100/" + response[0].image,
             unit: response[0].unit,
             amount: response[0].amount,
             amountCost: response[0].estimatedCost.value,
@@ -170,22 +211,34 @@ function buildIngredientsList(ingArray){
   ingArray.forEach(function(ingredient){
     console.log("in the loop!")
     console.log(ingredient);
-    var ingImage = $("<td>").append($("<img>").attr(ingredient.imgURL));
+    var ingImage = $("<td>").append($("<img>").attr("src", ingredient.imgURL));
     var ingLine = $("<td>").append($("<p>").html(ingredient.line));
     var ingCost = $("<td>").append($("<p>").html("$" + (ingredient.amountCost/100).toFixed(2)));
     var ingLink = $("<td>").append($("<a>").attr("href", "https://www.amazon.com/s?k=" + ingredient.name +"&i=grocery").html(ingredient.name));
 
     var ingRow = $("<tr>").append(ingImage, ingLine, ingCost, ingLink);
     $("#ingredient-table").append(ingRow);
-
-
+    
     //If current ingredient is not part of the list of ingredients user entered, add ingredient cost to subTotal. 
     if(ingredients.indexOf(ingredient.name) === -1){
     subTotal += ingredient.amountCost;
     }
 
   });
+
   subTotal = "$" + Math.round(subTotal)/100; 
 
   ingDiv.append($("<h4>").html("Total Recipe Cost: " + subTotal));
+
+  if(errorIngLines.length > 0){
+    var errorIngLinesHeader = $("<p>").html("We're sorry to say we couldn't find any information for the following ingredient lines:");
+    var errorLineList = $("<ul>")
+    errorIngLines.forEach(function(line){
+      var listEl = $("<li>").html(line);
+      errorLineList.append(listEl);
+    });
+    ingDiv.append(errorIngLinesHeader, errorLineList);
+  }
+
+  
 }
