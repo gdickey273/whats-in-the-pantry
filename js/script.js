@@ -1,58 +1,15 @@
-var ingredients = "butter, sugar, flour"; //localStorage.getItem("pantryList"); // When input grab is available change query to input
+var ingredients = localStorage.getItem("pantryList"); // When input grab is available change query to input
 var edamamQueryURL = "https://api.edamam.com/search?q=";
 var appId = "&app_id=595f4e2b";
 var apiKey = "&app_key=d8d22c089617d4cfbff9ce15762ee548";
 var spoonacularKey = "fd6475bc93094d129e4695440a886f1a";
 var recipeArray = [];
-var ingredientArray = [{
-  amount: 1.5,
-  amountCost: 145.29,
-  id: 1145,
-  imgURL: "https://spoonacular.com/cdn/ingredients_100x100/butter-sliced.jpg",
-  line: "1 1/2 sticks unsalted butter",
-  name: "butter",
-  packageCost: -1,
-  unit: "sticks"},
-{amount: 1.3333333333333333,
-  amountCost: 22.22,
-  id: 20081,
-  imgURL: "https://spoonacular.com/cdn/ingredients_100x100/flour.png",
-  line: "1 1/3 cups all-purpose flour",
-  name: "flour",
-  packageCost: -1,
-  unit: "cups"},
-  {
-    amount: 0.5,
-amountCost: 35.36,
-id: 10019334,
-imgURL: "https://spoonacular.com/cdn/ingredients_100x100/dark-brown-sugar.png",
-line: "1/2 cup packed brown sugar (preferably dark)",
-name: "brown sugar",
-packageCost: -1,
-unit: "cup"
-  },
-  {amount: 1,
-    amountCost: 29.83,
-    id: 2050,
-    imgURL: "https://spoonacular.com/cdn/ingredients_100x100/vanilla-extract.jpg",
-    line: "1 teaspoon pure vanilla extract",
-    name: "vanilla extract",
-    packageCost: -1,
-    unit: "teaspoon"},
-    {
-      amount: 0.25,
-      amountCost: 0.16,
-      id: 2047,
-      imgURL: "https://spoonacular.com/cdn/ingredients_100x100/salt.jpg",
-      line: "1/4 teaspoon salt (flaky salt would be great in these)",
-      name: "salt",
-      packageCost: -1,
-      unit: "teaspoon"}
-];
+var dataIdTracker = -1;
+var ingredientArray = [];
 var deferred;
 var deferredArray = [];
-var recipeAmountCount = 1;
-var errorIngLines = ["Demerara sugar (Sugar in the Raw) or sanding sugar for rolling (optional)"];
+var recipeAmountCount = 2;
+var errorIngLines = [];
 
 // Edamam Ajax
 function edamamAjax() {
@@ -91,6 +48,7 @@ function updatePage(recipeData) {
       var confirmIcon = $("<img>");
       confirmIcon.appendTo(".recipe-card");
       confirmIcon.attr("src", "img/icons/check-circle.svg");
+      confirmIcon.attr("data-index", i);
       confirmIcon.addClass("confirm-icon");
 
       // Recipe Name
@@ -151,29 +109,50 @@ function updatePage(recipeData) {
       cardURL.attr("href", recipeURL);
       cardURL.attr("target", "_blank")
       cardURL.appendTo(cardBottom);
-  
-      var ingLines = recipeData.hits[i].recipe.ingredientLines;
-      
-    //   parseIngredients(ingLines);
-    //   console.log("------deferredArray------",deferredArray);
-    //   console.log("------length: "+ deferredArray.length + "--------");
-  
-    //   console.log("------defArray[0].readyState-------", deferredArray[0].readyState);
-    //   $.when.apply($, deferredArray).done(function(){
-    //   buildIngredientsList(ingredientArray);
-    // });
-    
-   buildIngredientsList(ingredientArray);
-    
-  
-      
+          
   }
+
+  //When confirm icon is clicked, get ingredient data from spoonacular, build new div with data, and prepend to body
+  $(".confirm-icon").on("click", function(event){ 
+    var displayFinal = $(".ingredient-div");
+    
+    //If icon clicked corresponds to data in most recent ingredient-div, just show that same div instead of building new one
+    if (dataIdTracker === event.target.dataset.index){
+      displayFinal.css("display", "block");
+      displayFinal.css("position", "absolute");
+    }
+    else{
+      //if icon corresponds to new recipe, remove old ingredient-div
+      dataIdTracker = event.target.dataset.index;
+      displayFinal.remove();
+      
+      //get ingredient data from spoonacular for ingredient lines of the recipe with corresponding data-index in recipeArray
+      parseIngredients(recipeArray[event.target.dataset.index].recipe.ingredientLines);
+
+      //When all requests have been resolved, build new ingredient-div and prepend to body
+      $.when.apply($, deferredArray).done(function(){
+        buildIngredientsList(ingredientArray);
+
+        //empty deferredArray
+        deferredArray = [];
+      });
+    }
+    
+
+    
+      
+  });
+
+  
 }
+
 
 // Takes an array of Ingredient Lines (i.e. ["4 Cups of Chicken Broth", "2 Teaspoons of Salt"]) as an argument and returns an array with an Ingredient object for each Ingredient Lin.e
 function parseIngredients(ingLines){
+  //for each ingredient line in ingLines array, make ajax "POST" call to spoonacular for data
   for(var i = 0; i < ingLines.length; i++){
 
+    //create a deferred promise for each ajax call and store in deferredArray
     deferred = $.ajax({
       url: "https://api.spoonacular.com/recipes/parseIngredients?ingredientList="+ ingLines[i] + "&apiKey=" + spoonacularKey,
       beforeSend: function(xhr){
@@ -188,6 +167,7 @@ function parseIngredients(ingLines){
         if(response[0].name.length === 0){
           errorIngLines.push(response[0].original);
         } else{
+          //if data can be found, create ingredient object with response data
           var ingOBJ = {
             line: response[0].original,
             name: response[0].name,
@@ -198,6 +178,7 @@ function parseIngredients(ingLines){
             amountCost: response[0].estimatedCost.value,
             packageCost: -1
           };
+          //push ingredient object into ingredientArray
           ingredientArray.push(ingOBJ);   
         }
         
@@ -214,21 +195,25 @@ function parseIngredients(ingLines){
 // Build ingredient list from spoonacular
 function buildIngredientsList(ingArray){
 
-  console.log("Running build ing list!");
-  console.log("------ingArray length: " + ingredientArray.length + "-------");
   var subTotal = 0;
+
+  //create ingredient-div
   var ingDiv = $("<div>").addClass("ingredient-div");
+
+  //create and append ingredient-table
   var ingTable = $("<table>").attr("id", "ingredient-table");
   ingDiv.append(ingTable);
   var ingTableTotals = $("<div>").attr("class", "table-totals");
   ingDiv.prependTo("body");
   ingTableTotals.appendTo(".ingredient-div");
 
+  //create close-icon and append to table
   var closeIcon = $("<img>");
   closeIcon.appendTo("#ingredient-table");
   closeIcon.attr("src", "img/icons/close-circle.svg");
   closeIcon.addClass("close-icon");
   
+  //create ingredient-table header row and append to table 
   var ingTableHeadRow = $("<tr>");
   ingTableHeadRow.append($("<th>").html("Image"));
   ingTableHeadRow.append($("<th>").html("Ingredient Line"));
@@ -236,11 +221,8 @@ function buildIngredientsList(ingArray){
   ingTableHeadRow.append($("<th>").html("Shopping Link"));
   ingTable.append(ingTableHeadRow);
 
-  console.log(Array.isArray(ingArray));
-  console.log(ingArray.length);
+  //for each ingredient in ingArray, create table row and fill with data
   ingArray.forEach(function(ingredient){
-    console.log("in the loop!")
-    console.log(ingredient);
     var ingImage = $("<td>").append($("<img>").attr("src", ingredient.imgURL));
     var ingLine = $("<td>").append($("<p>").html(ingredient.line));
     var ingCost = $("<td>").append($("<p>").html("$" + (ingredient.amountCost/100).toFixed(2)));
@@ -256,9 +238,11 @@ function buildIngredientsList(ingArray){
 
   });
 
+  //Convert subtotal from cents to dollars and append to table
   subTotal = "$" + Math.round(subTotal)/100; 
   ingTableTotals.append($("<p>").html("Total Recipe Cost: " + subTotal));
 
+  //if spoonacular couldn't find information on one or more ingredient lines, append those lines here with a message
   if(errorIngLines.length > 0){
     var errorIngLinesHeader = $("<p>").html("We're sorry to say we couldn't find any information for the following ingredient lines:");
     var errorLineList = $("<ul>")
@@ -269,15 +253,18 @@ function buildIngredientsList(ingArray){
     ingTableTotals.append(errorIngLinesHeader, errorLineList);
   }
 
+  //Once ingredient-div is built, display block with position absolute
   var displayFinal = $(".ingredient-div");
+    displayFinal.css("display", "block");
+    displayFinal.css("position", "absolute");
 
-  $(".confirm-icon").on("click", function(){ 
-      displayFinal.css("display", "block");
-      displayFinal.css("position", "absolute");
-  });
-
+    //if close-icon is clicked, hide ingredient-div
   $(".close-icon").on("click", function(){ 
     displayFinal.css("display", "none");
+
   });
 
+  //Once ingredient-div is built, empty ingredientArray
+  ingredientArray = [];
 }
+
