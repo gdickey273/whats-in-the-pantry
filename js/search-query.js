@@ -28,6 +28,6 @@ $(".landing-button").on("click", function(){
   }
   
   localStorage.setItem("pantryList", pantryItems);
-  var url = "C:\\Users\\Daniel\\dev\\unc\\class-work\\project-1\\whats-in-the-pantry\\recipes.html";
+  var url = "recipes.html";
   $(location).attr('href',url);
 });
