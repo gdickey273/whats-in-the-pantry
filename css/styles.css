@@ -229,15 +229,19 @@ input[type="text"] {
 .card-bottom .expand-card {
   float: left;
   border-radius: 0.2em;
-  background-color: #e48342;
+  background-color: #e44242;
   color: white;
   padding: 0.5em;
+}
+
+.card-bottom .expand-card:hover {
+  cursor: pointer;
 }
 
 .card-bottom a {
   float: right;
   border-radius: 0.2em;
-  background-color: #e44242;
+  background-color: #e48342;
   color: white;
   padding: 0.5em;
   text-decoration: none;
@@ -288,10 +292,12 @@ input[type="text"] {
 .ingredient-div table tbody tr {
   margin-left: 1.5em;
   margin-right: 1.5em;
+  padding: .2em;
 }
 
 .ingredient-div table tbody td {
   position: relative;
+  overflow: scroll;
 }
 
 .ingredient-div table tbody td p,
@@ -340,6 +346,10 @@ li {
   width: 20px;
   padding: 0.2em;
   right: 0;
+}
+
+.close-icon:hover {
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 875px) {

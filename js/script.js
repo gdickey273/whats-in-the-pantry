@@ -47,7 +47,6 @@ function updatePage(recipeData) {
 
       var confirmIcon = $("<img>");
       confirmIcon.attr("src", "img/icons/check-circle.svg");
-      confirmIcon.attr("data-index", i);
       confirmIcon.addClass("confirm-icon");
 
       // Recipe Name
@@ -95,15 +94,16 @@ function updatePage(recipeData) {
       var cardBottom = $("<div>");
       cardBottom.addClass("card-bottom");
 
-      var expandCard = $("<div>");
+      var expandCard = $("<a>");
+      expandCard.attr("data-index", i);
       expandCard.addClass("expand-card");
-      expandCard.html("<p>Expand Card</p>");
+      expandCard.html("Recipe Cost");
       expandCard.appendTo(cardBottom);
 
       // Recipe URL
       var recipeURL = recipeData.hits[i].recipe.url;
       var cardURL = $("<a>")
-      cardURL.html("Recipe Summary");
+      cardURL.html("Recipe Source & Instructions");
       cardURL.attr("href", recipeURL);
       cardURL.attr("target", "_blank")
       cardURL.appendTo(cardBottom);
@@ -115,7 +115,7 @@ function updatePage(recipeData) {
   confirmIcon.appendTo(".recipe-card");
 
   //When confirm icon is clicked, get ingredient data from spoonacular, build new div with data, and prepend to body
-  $(".confirm-icon").on("click", function(event){ 
+  $(".expand-card").on("click", function(event){ 
     var displayFinal = $(".ingredient-div");
     
     //If icon clicked corresponds to data in most recent ingredient-div, just show that same div instead of building new one
@@ -180,6 +180,7 @@ function parseIngredients(ingLines){
             amountCost: response[0].estimatedCost.value,
             packageCost: -1
           };
+          console.log(ingOBJ);
           //push ingredient object into ingredientArray
           ingredientArray.push(ingOBJ);   
         }

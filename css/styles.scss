@@ -221,15 +221,19 @@ input[type="text"] {
   & .expand-card {
     float: left;
     border-radius: 0.2em;
-    background-color: rgb(228, 131, 66);
+    background-color: rgb(228, 66, 66);
     color: white;
     padding: 0.5em;
+    
+    &:hover{
+      cursor: pointer;
+    }
   }
 
   & a {
     float: right;
     border-radius: 0.2em;
-    background-color: rgb(228, 66, 66);
+    background-color: rgb(228, 131, 66);
     color: white;
     padding: 0.5em;
     text-decoration: none;
@@ -276,10 +280,12 @@ input[type="text"] {
       & tr{
         margin-left: 1.5em;
         margin-right: 1.5em;
+        padding: .2em;
       }
 
       & td {
           position: relative;
+          overflow: scroll;
 
           & p,
           a{
@@ -331,6 +337,9 @@ li {
   width: 20px;
   padding: 0.2em;
   right: 0;
+  &:hover{
+    cursor: pointer;
+  }
 }
 
 @media only screen and (min-width: 875px) {
