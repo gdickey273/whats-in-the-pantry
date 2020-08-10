@@ -286,6 +286,9 @@ input[type="text"] {
       & td {
           position: relative;
           overflow: scroll;
+          &::-webkit-scrollbar {
+            display: none;
+          }
 
           & p,
           a{

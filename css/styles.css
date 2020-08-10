@@ -300,6 +300,10 @@ input[type="text"] {
   overflow: scroll;
 }
 
+.ingredient-div table tbody td::-webkit-scrollbar {
+  display: none;
+}
+
 .ingredient-div table tbody td p,
 .ingredient-div table tbody td a {
   position: absolute;
