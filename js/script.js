@@ -27,7 +27,6 @@ function updatePage(recipeData) {
 
   var pantryDisplay = localStorage.getItem("pantryList");
   pantryDisplay = pantryDisplay.split(",");
-  console.log(pantryDisplay);
 
   for(var i = 0; i < pantryDisplay.length; i++){
     var pantryIngredientName = $("<li>");
@@ -36,10 +35,8 @@ function updatePage(recipeData) {
   }
 
   recipeArray = recipeData.hits; 
-  console.log("-----edamam recipe data-----", recipeData);
     for (var i = 0; i < recipeAmountCount; i++) {
       var recipe = recipeData.hits[i];
-      console.log(recipe);
 
       var recipeDiv = $("<div>");
       recipeDiv.appendTo(".recipe-section");
@@ -67,7 +64,6 @@ function updatePage(recipeData) {
 
       // Recipe Health Labels i.e Alcohol Free, Gluten Free
       var recipeHealthLabels = recipeData.hits[i].recipe.healthLabels;
-      console.log(recipeHealthLabels);
       var health = $("<li>");
       health.html("<b>Health Labels: </b>" + [recipeHealthLabels]);
       health.appendTo(cardList);
@@ -163,7 +159,6 @@ function parseIngredients(ingLines){
       method: "POST",
       success: function(response){
         parseIngredientOBJ = response;
-        console.log("-----response-----", response);
 
         //If api cant find information on the ingredient line, the returned name will be "". If thats the case, push that ing line into an array of error ing lines.
         if(response[0].name.length === 0){
@@ -180,7 +175,6 @@ function parseIngredients(ingLines){
             amountCost: response[0].estimatedCost.value,
             packageCost: -1
           };
-          console.log(ingOBJ);
           //push ingredient object into ingredientArray
           ingredientArray.push(ingOBJ);   
         }
@@ -273,4 +267,3 @@ function buildIngredientsList(ingArray){
   //Once ingredient-div is built, empty ingredientArray
   ingredientArray = [];
 }
-
