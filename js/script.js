@@ -8,7 +8,7 @@ var dataIdTracker = -1;
 var ingredientArray = [];
 var deferred;
 var deferredArray = [];
-var recipeAmountCount = 2;
+var recipeAmountCount = 10;
 var errorIngLines = [];
 
 // Edamam Ajax
@@ -46,9 +46,7 @@ function updatePage(recipeData) {
       recipeDiv.addClass("recipe-card");
 
       var confirmIcon = $("<img>");
-      confirmIcon.appendTo(".recipe-card");
       confirmIcon.attr("src", "img/icons/check-circle.svg");
-      confirmIcon.attr("data-index", i);
       confirmIcon.addClass("confirm-icon");
 
       // Recipe Name
@@ -60,60 +58,64 @@ function updatePage(recipeData) {
       var recipeCard = $(".recipe-card");
       var cardList = $("<div>");
       cardList.addClass("card-list");
-      cardList.appendTo(recipeCard);
 
       // Recipe Calories
       var recipeCalories = recipeData.hits[i].recipe.calories;
       var calories = $("<li>");
-      calories.html("Recipe Calories: " + Math.round(recipeCalories));
+      calories.html("<b>Recipe Calories: </b>" + Math.round(recipeCalories));
       calories.appendTo(cardList);
 
       // Recipe Health Labels i.e Alcohol Free, Gluten Free
       var recipeHealthLabels = recipeData.hits[i].recipe.healthLabels;
       console.log(recipeHealthLabels);
       var health = $("<li>");
-      health.html("Health Labels: " + [recipeHealthLabels]);
+      health.html("<b>Health Labels: </b>" + [recipeHealthLabels]);
       health.appendTo(cardList);
       
       // Recipe Image
       var recipeImage = recipeData.hits[i].recipe.image;
-      var img = $("<img>")
+      var img = $("<img>");
+      img.addClass("card-image");
       img.attr("src", recipeImage);
       img.appendTo(recipeDiv);
 
       // Recipe Serving Amount
       var recipeServings = recipeData.hits[i].recipe.yield;
       var servings = $("<li>")
-      servings.html("Servings : " + recipeServings);
+      servings.html("<b>Servings: </b>" + recipeServings);
       servings.appendTo(cardList);
 
       // Recipe Source
       var recipeSource = recipeData.hits[i].recipe.source;
       var source = $("<li>")
-      source.html("Source : " + recipeSource);
+      source.html("<b>Source: </b>" + recipeSource);
       source.appendTo(cardList);
 
       var cardBottom = $("<div>");
       cardBottom.addClass("card-bottom");
-      cardBottom.appendTo(recipeCard);
 
-      var expandCard = $("<div>");
+      var expandCard = $("<a>");
+      expandCard.attr("data-index", i);
       expandCard.addClass("expand-card");
-      expandCard.html("<p>Expand Card</p>");
+      expandCard.html("Recipe Cost");
       expandCard.appendTo(cardBottom);
 
       // Recipe URL
       var recipeURL = recipeData.hits[i].recipe.url;
       var cardURL = $("<a>")
-      cardURL.html("Recipe Summary");
+      cardURL.html("Recipe Source & Instructions");
       cardURL.attr("href", recipeURL);
       cardURL.attr("target", "_blank")
       cardURL.appendTo(cardBottom);
           
   }
 
+  cardList.appendTo(recipeCard);
+  cardBottom.appendTo(recipeCard);
+  confirmIcon.appendTo(".recipe-card");
+
   //When confirm icon is clicked, get ingredient data from spoonacular, build new div with data, and prepend to body
-  $(".confirm-icon").on("click", function(event){ 
+  $(".expand-card").on("click", function(event){ 
     var displayFinal = $(".ingredient-div");
     
     //If icon clicked corresponds to data in most recent ingredient-div, just show that same div instead of building new one
@@ -178,6 +180,7 @@ function parseIngredients(ingLines){
             amountCost: response[0].estimatedCost.value,
             packageCost: -1
           };
+          console.log(ingOBJ);
           //push ingredient object into ingredientArray
           ingredientArray.push(ingOBJ);   
         }
@@ -215,10 +218,10 @@ function buildIngredientsList(ingArray){
   
   //create ingredient-table header row and append to table 
   var ingTableHeadRow = $("<tr>");
-  ingTableHeadRow.append($("<th>").html("Image"));
-  ingTableHeadRow.append($("<th>").html("Ingredient Line"));
-  ingTableHeadRow.append($("<th>").html("Cost"));
-  ingTableHeadRow.append($("<th>").html("Shopping Link"));
+  ingTableHeadRow.append($("<th>").html("<b>Image</b>"));
+  ingTableHeadRow.append($("<th>").html("<b>Ingredient Line</b>"));
+  ingTableHeadRow.append($("<th>").html("<b>Cost</b>"));
+  ingTableHeadRow.append($("<th>").html("<b>Shopping Link</b>"));
   ingTable.append(ingTableHeadRow);
 
   //for each ingredient in ingArray, create table row and fill with data
@@ -226,7 +229,10 @@ function buildIngredientsList(ingArray){
     var ingImage = $("<td>").append($("<img>").attr("src", ingredient.imgURL));
     var ingLine = $("<td>").append($("<p>").html(ingredient.line));
     var ingCost = $("<td>").append($("<p>").html("$" + (ingredient.amountCost/100).toFixed(2)));
-    var ingLink = $("<td>").append($("<a>").attr("href", "https://www.amazon.com/s?k=" + ingredient.name +"&i=grocery").html(ingredient.name));
+    var cartIcon = $("<img>");
+    cartIcon.attr("src", "img/icons/cart-add.svg");
+    // var ingLink = $("<td>").append($("<a>").attr("href", "https://www.amazon.com/s?k=" + ingredient.name +"&i=grocery").html(cartIcon));
+    var ingLink = $("<td>").html("<a href= https://www.amazon.com/s?k="+ ingredient.name +"&i=grocery><img src=\"img/icons/cart-add.svg\" width=30px\"></a>");
 
     var ingRow = $("<tr>").append(ingImage, ingLine, ingCost, ingLink);
     $("#ingredient-table").append(ingRow);
@@ -240,7 +246,7 @@ function buildIngredientsList(ingArray){
 
   //Convert subtotal from cents to dollars and append to table
   subTotal = "$" + Math.round(subTotal)/100; 
-  ingTableTotals.append($("<p>").html("Total Recipe Cost: " + subTotal));
+  ingTableTotals.append($("<p>").html("<b>Total Recipe Cost: </b>" + subTotal));
 
   //if spoonacular couldn't find information on one or more ingredient lines, append those lines here with a message
   if(errorIngLines.length > 0){

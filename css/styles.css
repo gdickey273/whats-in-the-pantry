@@ -23,10 +23,15 @@
   }
 }
 
+* {
+  font-family: "Crimson Text";
+}
+
 body {
   position: relative;
   background: radial-gradient(rgba(7, 7, 7, 0.322), rgba(0, 0, 0, 0.438)), url(../img/background.jpeg);
   background-size: cover;
+  background-position: center;
   font-family: "Crimson Text", serif;
   margin: 0;
   min-width: 375px;
@@ -60,8 +65,8 @@ main {
 
 .title-section__content h1 {
   font-size: 3em;
-  color: #FFFFFF;
-  padding-bottom: .5em;
+  color: #ffffff;
+  padding-bottom: 0.5em;
 }
 
 .title-section__content h1:after {
@@ -70,11 +75,12 @@ main {
 }
 
 .title-section__content h2 {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1.5em;
 }
 
-.title-section h1, .title-section h2 {
+.title-section h1,
+.title-section h2 {
   font-weight: normal;
 }
 
@@ -83,10 +89,11 @@ main {
   -ms-grid-column: 1;
   grid-area: pl;
   margin: auto;
+  width: 80%;
   overflow: scroll;
   height: 10vh;
   padding: 0 1.1em;
-  margin: .5em auto;
+  margin: 0.5em auto;
 }
 
 .pantrylistitems-section li {
@@ -96,8 +103,9 @@ main {
   list-style-type: none;
   display: inline-block;
   font-size: 1.1em;
-  margin: .2em;
-  padding: .5em;
+  margin: 0.2em;
+  padding: 0.5em;
+  border-radius: 0.2em;
 }
 
 .pantrylistitems-section::-webkit-scrollbar {
@@ -116,16 +124,21 @@ main {
 }
 
 .recipe-card {
-  display: relative;
-  background-color: #FFFFFF;
-  width: 90%;
-  padding: 1em;
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 0.5em;
+  width: 80%;
+  padding: 1.2em;
   margin: 2em auto;
   font-size: 1em;
 }
 
-.recipe-card img {
-  width: 100px;
+.recipe-card .card-image {
+  float: left;
+  margin-top: 1em;
+  width: 50%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .recipe-card p {
@@ -133,35 +146,42 @@ main {
 }
 
 .recipe-card h1 {
+  float: left;
+  width: 75%;
   font-size: 1.5em;
-  padding-bottom: 1em;
   font-weight: bold;
 }
 
 .input-group__textbox {
-  background-color: white;
-  width: 40%;
-  padding: .5em;
+  width: 60%;
+  padding: 0.5em;
   font-size: 1em;
   border: none;
   font-family: "Crimson Text";
 }
 
-input[type=text] {
+input[type="text"] {
+  background-color: white;
+  display: inline-block;
   outline: none;
   border: none;
+  -webkit-appearance: none;
+  border-radius: .2em;
 }
 
 .landing-button {
-  color: lightgrey;
-  background-color: #FFFEFE;
-  padding: .9em 1em;
-  margin: 0 .5em;
+  display: inline-block;
+  padding: .7em;
+  color: white;
+  background-color: #fffefe;
   border: none;
   outline: none;
+  border-radius: .2em;
 }
 
-.landing-button:active, .landing-button :hover, .landing-button :focus {
+.landing-button:active,
+.landing-button :hover,
+.landing-button :focus {
   outline: none;
 }
 
@@ -170,7 +190,7 @@ input[type=text] {
 }
 
 .landing-button img {
-  height: 12px;
+  height: 14px;
   color: #757575;
 }
 
@@ -191,36 +211,47 @@ input[type=text] {
 .card-list {
   float: right;
   width: 50%;
+  overflow: hidden;
 }
 
 .card-list li {
   text-align: left;
   list-style-type: none;
-  padding-left: 2em;
 }
 
 .card-bottom {
-  padding: .5em;
+  margin: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
   clear: both;
+}
+
+.card-bottom .expand-card {
+  float: left;
+  border-radius: 0.2em;
+  background-color: #e44242;
+  color: white;
+  padding: 0.5em;
+}
+
+.card-bottom .expand-card:hover {
+  cursor: pointer;
 }
 
 .card-bottom a {
   float: right;
-  background-color: #e44242;
-  color: white;
-  padding: .5em;
-  text-decoration: none;
-}
-
-.expand-card {
-  float: left;
+  border-radius: 0.2em;
   background-color: #e48342;
   color: white;
-  padding: .5em;
+  padding: 0.5em;
+  text-decoration: none;
 }
 
 .ingredient-div {
   display: none;
+  background-color: rgba(0, 0, 0, 0.411);
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
   overflow: scroll;
   z-index: 99;
   height: 100%;
@@ -240,28 +271,51 @@ input[type=text] {
   margin: 0 auto;
   margin-top: 1em;
   padding: 1em;
+  border-radius: .2em;
 }
 
-.ingredient-div table th, .ingredient-div table td {
+.ingredient-div table th,
+.ingredient-div table td {
   border-collapse: collapse;
   padding: 1em;
 }
 
 .ingredient-div table tbody {
   margin: auto;
+  padding: 1em;
 }
 
-.ingredient-div table tbody tr td {
-  position: relative;
-}
-
-.ingredient-div table tbody tr td p, .ingredient-div table tbody tr td a {
-  position: absolute;
-  top: 20%;
-  text-align: left;
+.ingredient-div table tbody th {
+  text-align: center;
 }
 
 .ingredient-div table tbody tr {
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+  padding: .2em;
+}
+
+.ingredient-div table tbody td {
+  position: relative;
+  overflow: scroll;
+}
+
+.ingredient-div table tbody td::-webkit-scrollbar {
+  display: none;
+}
+
+.ingredient-div table tbody td p,
+.ingredient-div table tbody td a {
+  position: absolute;
+  top: 20%;
+  text-align: center;
+}
+
+.ingredient-div table tbody td img {
+  text-align: center;
+}
+
+.ingredient-div tbody tr {
   text-align: center;
   padding: 1em;
   width: 80%;
@@ -273,38 +327,51 @@ input[type=text] {
   width: 90%;
   margin: 1em auto;
   padding: 0;
+  border-radius: .2em;
 }
 
-.table-totals p, li {
+.table-totals p,
+li {
   padding: 1em;
 }
 
 .confirm-icon {
-  width: 20px !important;
-  padding: .2em;
-  float: right;
+  position: absolute;
+  display: block;
+  width: 20px;
+  right: 0;
+  top: 0;
+  padding-right: 1em;
+  padding-top: 1em;
 }
 
 .close-icon {
   position: absolute;
-  width: 20px !important;
-  padding: .2em;
+  width: 20px;
+  padding: 0.2em;
   right: 0;
 }
 
+.close-icon:hover {
+  cursor: pointer;
+}
+
 @media only screen and (min-width: 875px) {
-  .recipe-card {
-    width: 668px;
-  }
-  .pantrylistitems-section {
-    width: 50%;
+  .recipe-card, .pantrylistitems-section {
+    width: 450px;
   }
   .ingredient-div table {
-    width: 700px;
+    width: 600px;
   }
   .table-totals {
-    width: 700px;
-    padding: 0;
+    width: 600px;
   }
+  .input-group__textbox {
+    width: 30%;
+  }
+}
+
+b {
+  font-weight: bold;
 }
 /*# sourceMappingURL=styles.css.map */

@@ -9,15 +9,32 @@ $(".landing-button").on("click", function(){
   var pantryItems = $("#pantry-items").val().trim();
   
   var specialChars = new RegExp(/[~`!#$%\^*+=\-\[\]\\';/{}|\\":<>\?]/);
+
+  var titleSectionContent = $(".title-section__content");
+  var alertMessage = $("<p>");
+  alertMessage.css("color", "red");
+  alertMessage.css("padding-top", "1em");
   
   if(pantryItems === ""){
-    alert("Your query is empty, please enter something.");
+    alertMessage.html("Your query is empty, please enter something.");
+    alertMessage.appendTo(titleSectionContent);   
+    setTimeout(function(){ 
+      alertMessage.css("display", "none");
+    },3000); 
     return;
   }else if(/\d/.test(pantryItems)){
-    alert("You have a number in your query, please remove and try again.");
+    alertMessage.html("You have numbers in your query, please remove and try again.");
+    alertMessage.appendTo(titleSectionContent);
+    setTimeout(function(){ 
+      alertMessage.css("display", "none");
+    },3000); 
     return;
   }else if(specialChars.test(pantryItems)){
-    alert("You have special characters in your query, please remove and try again.")
+    alertMessage.html("You have special characters in your query, please remove and try again.");
+    alertMessage.appendTo(titleSectionContent);
+    setTimeout(function(){ 
+      alertMessage.css("display", "none");
+    },3000); 
     return;
   }
   
