@@ -8,7 +8,7 @@ ingredients. Users can find links to the ingredients for online shopping through
 
 
 ## User Story
-As a home chef
+As a home chef:
 
 I want to search for recipes that include key ingredients that I have in my kitchen
 
@@ -39,15 +39,17 @@ Once a user finds a recipe they like, they can click on the "Recipe Source & Ins
 
 
 ## Team Members
-Daniel Sargent - github.com/dsargen25
-Dianna Mack - github.com/dmack095-07
-Graham Dickey - github.com/gdickey273
-Martin Hemphill - github.com/martinhemphill
+Daniel Sargent - github.com/dsargen25</br>
+Dianna Mack - github.com/dmack095-07</br>
+Graham Dickey - github.com/gdickey273</br>
+Martin Hemphill - github.com/martinhemphill</br>
 
 
 ## Api Sources and Link to Deployed Application
-Api Sources: Edamame - Recipie Search API - https://developer.edamam.com/edamam-recipe-api
-             GroceryBear API - https://grocerybear.com/
+API Sources: </br>
+
+Edamame - Recipe Search API - https://developer.edamam.com/edamam-recipe-api</br>
+GroceryBear API - https://grocerybear.com/
 
 
 URL of Deployed Application: https://gdickey273.github.io/whats-in-the-pantry/
