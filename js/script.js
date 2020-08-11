@@ -54,6 +54,7 @@ function updatePage(recipeData) {
 
       var recipeCard = $(".recipe-card");
       var cardList = $("<div>");
+      cardList.appendTo(recipeCard);
       cardList.addClass("card-list");
 
       // Recipe Calories
@@ -88,6 +89,7 @@ function updatePage(recipeData) {
       source.appendTo(cardList);
 
       var cardBottom = $("<div>");
+      cardBottom.appendTo(recipeCard);
       cardBottom.addClass("card-bottom");
 
       var expandCard = $("<a>");
@@ -106,8 +108,6 @@ function updatePage(recipeData) {
           
   }
 
-  cardList.appendTo(recipeCard);
-  cardBottom.appendTo(recipeCard);
   confirmIcon.appendTo(".recipe-card");
 
   //When confirm icon is clicked, get ingredient data from spoonacular, build new div with data, and prepend to body
