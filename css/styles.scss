@@ -91,7 +91,7 @@ main {
   grid-area: pl;
   display: flex;
   margin: auto;
-  width: 100%;
+  width: 85%;
   overflow: scroll;
   height: 50px;
 
@@ -249,7 +249,7 @@ input[type="text"] {
   background-color: white;
   backdrop-filter: blur(2px);
   overflow: scroll;
-  z-index: 99;
+  z-index: 3;
   height: 100%;
   width: 100%;
 
@@ -297,8 +297,8 @@ input[type="text"] {
           & p,
           a{
             position: absolute;
-            top: 20%;
-            text-align: center;
+            top: 20px;
+            text-align: left;
           }
 
           & img{
@@ -344,10 +344,12 @@ li {
 }
 
 .close-icon {
-  display: block;
+  display: none;
   position: fixed;
+  z-index: 4;
   width: 20px;
-  padding: 1em;
+  padding-right: 1em;
+  padding-top: .3em;
   right: 0;
   top: 0;
   &:hover{
