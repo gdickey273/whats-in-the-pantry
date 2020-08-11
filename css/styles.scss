@@ -48,7 +48,7 @@ main {
     "t"
     "pl"
     "r";
-  grid-template-rows: 35vh 10vh 55vh;
+  grid-template-rows: 25vh 10vh 65vh;
   grid-template-columns: auto;
 }
 
@@ -93,7 +93,7 @@ main {
   margin: auto;
   width: 85%;
   overflow: scroll;
-  height: 50px;
+  height: 45px;
 
   & li {
     text-align: center;
@@ -126,7 +126,7 @@ main {
   position: relative;
   background-color: #ffffff;
   border-radius: 0.5em;
-  width: 80%;
+  width: 85%;
   padding: 1.2em;
   margin: 2em auto;
   font-size: 1em;

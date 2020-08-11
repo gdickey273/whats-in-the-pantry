@@ -119,7 +119,7 @@ function updatePage(recipeData) {
       // Recipe URL
       var recipeURL = recipeData.hits[i].recipe.url;
       var cardURL = $("<a>")
-      cardURL.html("Recipe Source & Instructions");
+      cardURL.html("Recipe Site & Instructions");
       cardURL.attr("href", recipeURL);
       cardURL.attr("target", "_blank")
       cardURL.appendTo(cardBottom);
