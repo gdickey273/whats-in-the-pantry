@@ -27,6 +27,10 @@
   font-family: "Crimson Text";
 }
 
+b {
+  font-weight: bold;
+}
+
 body {
   position: relative;
   background: radial-gradient(rgba(7, 7, 7, 0.322), rgba(0, 0, 0, 0.438)), url(../img/background.jpeg);
@@ -88,12 +92,13 @@ main {
   -ms-grid-row: 2;
   -ms-grid-column: 1;
   grid-area: pl;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   margin: auto;
-  width: 80%;
+  width: 100%;
   overflow: scroll;
-  height: 10vh;
-  padding: 0 1.1em;
-  margin: 0.5em auto;
+  height: 50px;
 }
 
 .pantrylistitems-section li {
@@ -106,6 +111,7 @@ main {
   margin: 0.2em;
   padding: 0.5em;
   border-radius: 0.2em;
+  white-space: nowrap;
 }
 
 .pantrylistitems-section::-webkit-scrollbar {
@@ -249,7 +255,7 @@ input[type="text"] {
 
 .ingredient-div {
   display: none;
-  background-color: rgba(0, 0, 0, 0.411);
+  background-color: white;
   -webkit-backdrop-filter: blur(2px);
           backdrop-filter: blur(2px);
   overflow: scroll;
@@ -330,6 +336,10 @@ input[type="text"] {
   border-radius: .2em;
 }
 
+.table-totals p {
+  text-align: center;
+}
+
 .table-totals p,
 li {
   padding: 1em;
@@ -346,17 +356,19 @@ li {
 }
 
 .close-icon {
-  position: absolute;
+  display: block;
+  position: fixed;
   width: 20px;
-  padding: 0.2em;
+  padding: 1em;
   right: 0;
+  top: 0;
 }
 
 .close-icon:hover {
   cursor: pointer;
 }
 
-@media only screen and (min-width: 875px) {
+@media only screen and (min-width: 700px) {
   .recipe-card, .pantrylistitems-section {
     width: 450px;
   }
@@ -369,9 +381,13 @@ li {
   .input-group__textbox {
     width: 30%;
   }
-}
-
-b {
-  font-weight: bold;
+  .pantrylistitems-section {
+    width: 490px;
+  }
+  .ingredient-div {
+    background-color: rgba(0, 0, 0, 0.411);
+    -webkit-backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px);
+  }
 }
 /*# sourceMappingURL=styles.css.map */

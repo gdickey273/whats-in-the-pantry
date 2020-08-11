@@ -5,7 +5,7 @@
  * w: http://animista.net, t: @cssanimista
  * ---------------------------------------------- */
 
-@-webkit-keyframes fade-in {
+ @-webkit-keyframes fade-in {
   0% {
     opacity: 0;
   }
@@ -26,6 +26,10 @@
 
 * {
   font-family: "Crimson Text";
+}
+
+b {
+  font-weight: bold;
 }
 
 body {
@@ -85,12 +89,11 @@ main {
 
 .pantrylistitems-section {
   grid-area: pl;
+  display: flex;
   margin: auto;
-  width: 80%;
+  width: 100%;
   overflow: scroll;
-  height: 10vh;
-  padding: 0 1.1em;
-  margin: 0.5em auto;
+  height: 50px;
 
   & li {
     text-align: center;
@@ -102,6 +105,7 @@ main {
     margin: 0.2em;
     padding: 0.5em;
     border-radius: 0.2em;
+    white-space: nowrap;
   }
 
   &::-webkit-scrollbar {
@@ -242,7 +246,7 @@ input[type="text"] {
 
 .ingredient-div {
   display: none;
-  background-color: rgba(0, 0, 0, 0.411);
+  background-color: white;
   backdrop-filter: blur(2px);
   overflow: scroll;
   z-index: 99;
@@ -318,6 +322,10 @@ input[type="text"] {
   margin: 1em auto;
   padding: 0;
   border-radius: .2em;
+
+  & p{
+    text-align: center;
+  }
 }
 
 .table-totals p,
@@ -336,16 +344,18 @@ li {
 }
 
 .close-icon {
-  position: absolute;
+  display: block;
+  position: fixed;
   width: 20px;
-  padding: 0.2em;
+  padding: 1em;
   right: 0;
+  top: 0;
   &:hover{
     cursor: pointer;
   }
 }
 
-@media only screen and (min-width: 875px) {
+@media only screen and (min-width: 700px) {
   .recipe-card, .pantrylistitems-section{
     width: 450px;
   }
@@ -365,8 +375,14 @@ li {
       width: 30%;
     }
   }
+
+  .pantrylistitems-section {
+    width: 490px;
+  }
+
+  .ingredient-div {
+    background-color: rgba(0, 0, 0, 0.411);
+    backdrop-filter: blur(2px);
+  }
 }
 
-b {
-  font-weight: bold;
-}
