@@ -49,7 +49,7 @@ Martin Hemphill - github.com/martinhemphill</br>
 API Sources: </br>
 
 Edamame - Recipe Search API - https://developer.edamam.com/edamam-recipe-api</br>
-GroceryBear API - https://grocerybear.com/
+Spoonacular API - https://spoonacular.com/food-api
 
 
 URL of Deployed Application: https://gdickey273.github.io/whats-in-the-pantry/
