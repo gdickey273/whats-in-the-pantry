@@ -18,23 +18,17 @@ $(".landing-button").on("click", function(){
   if(pantryItems === ""){
     alertMessage.html("Your query is empty, please enter something.");
     alertMessage.appendTo(titleSectionContent);   
-    setTimeout(function(){ 
-      alertMessage.css("display", "none");
-    },3000); 
+    setTimeout(function(){alertMessage.css("display", "none");},3000); 
     return;
   }else if(/\d/.test(pantryItems)){
     alertMessage.html("You have numbers in your query, please remove and try again.");
     alertMessage.appendTo(titleSectionContent);
-    setTimeout(function(){ 
-      alertMessage.css("display", "none");
-    },3000); 
+    setTimeout(function(){alertMessage.css("display", "none");},3000); 
     return;
   }else if(specialChars.test(pantryItems)){
     alertMessage.html("You have special characters in your query, please remove and try again.");
     alertMessage.appendTo(titleSectionContent);
-    setTimeout(function(){ 
-      alertMessage.css("display", "none");
-    },3000); 
+    setTimeout(function(){alertMessage.css("display", "none");},3000); 
     return;
   }
   
@@ -43,6 +37,8 @@ $(".landing-button").on("click", function(){
   for (var i = 0; i < pantryItems.length; i++) {
     pantryItems[i] = pantryItems[i].trim();
   }
+
+  pantryItems = pantryItems.filter(function(v){return v!==''});
   
   localStorage.setItem("pantryList", pantryItems);
   var url = "recipes.html";
